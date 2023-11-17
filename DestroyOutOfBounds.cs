@@ -11,10 +11,19 @@ public class DestroyOutOfBounds : MonoBehaviour
     }
     private float topBound = 30;
     private float lowerBound = -10;
+    private float sideBound = 40;
     // Update is called once per frame
     void Update()
     {
         //keeps projectile and animals from constantly running. This will keep a ton of lag from happening too.
+        if (transform.position.x > sideBound)
+        {
+            Destroy(gameObject);
+        }
+        else if (transform.position.x < -sideBound)
+        {
+            Destroy(gameObject);
+        }
         if (transform.position.z > topBound)
         {
             Destroy(gameObject);

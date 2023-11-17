@@ -18,7 +18,14 @@ public class DetectCollisions : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
-        Destroy(other.gameObject);
+        if (other.CompareTag("Cookie"))
+        {
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+        }
+        else
+        {
+            Debug.Log("Game Over!");
+        }
     }
 }

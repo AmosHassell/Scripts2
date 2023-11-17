@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     private float spawnPosZ = 20;
     private float startDelay = 2;
     private float spawnInterval = 1.5f;
+    //This is for trying to make the animals spawn on the left, right, and top side of the screen
+    private string[] directions = { "top", "left", "right" };
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +26,26 @@ public class SpawnManager : MonoBehaviour
     void SpawnRandomAnimal()
     {
         int animalIndex = Random.Range(0, animalPrefabs.Length);
-        Vector3 spawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 0, spawnPosZ);
+        string spawnDirection = directions[Random.Range(0, directions.Length)];
+        Vector3 spawnPos = Vector3.zero;
+        switch (spawnDirection)
+        {
+            // Quaternion apparently changes the rotation of an object.
+            case "left":
+                spawnPos = new Vector3(-30, 0, Random.Range(-2, 17));
+                Instantiate(animalPrefabs[animalIndex], spawnPos, Quaternion.LookRotation(Vector3.right));
+                break;
+                //Break gets rid of the closest surrounding iteration statement.
+            case "right":
+                spawnPos = new Vector3(30, 0, Random.Range(-2, 17));
+                Instantiate(animalPrefabs[animalIndex], spawnPos, Quaternion.LookRotation(Vector3.left));
+                break;
+            default:
+                spawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 0, spawnPosZ);
+               
+                Instantiate(animalPrefabs[animalIndex], spawnPos, animalPrefabs[animalIndex].transform.rotation);
+                break;
+        }
 
-        Instantiate(animalPrefabs[animalIndex], spawnPos, animalPrefabs[animalIndex].transform.rotation);
     }
 }
